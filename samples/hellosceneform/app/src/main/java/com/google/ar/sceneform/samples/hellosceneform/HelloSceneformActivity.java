@@ -25,6 +25,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
@@ -43,6 +48,9 @@ public class HelloSceneformActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
   private ModelRenderable andyRenderable;
+
+  private Button button;
+  private WebView mWebView;
 
   @Override
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -90,6 +98,27 @@ public class HelloSceneformActivity extends AppCompatActivity {
           andy.setRenderable(andyRenderable);
           andy.select();
         });
+
+    button = (Button) findViewById(R.id.button);
+    button.setOnClickListener(new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+            addWebView();
+        }
+    });
+  }
+
+  private void addWebView() {
+    Log.d(TAG, "Adding WebView");
+    mWebView = new WebView(this);
+    mWebView.setLayoutParams(new LinearLayout.LayoutParams(250, 250));
+    mWebView.loadUrl("https://www.example.com");
+
+    //This causes crash
+      FrameLayout layout = (FrameLayout) getWindow().getDecorView().getRootView();
+      layout.addView(mWebView);
+
+    Log.d(TAG, "Added WebView");
   }
 
   /**
